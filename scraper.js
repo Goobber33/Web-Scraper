@@ -32,30 +32,38 @@ const parseData = (html) => {
   return data;
 };
 
-const saveData = async (data, url) => {
-  try {
-    const db = client.db(process.env.MONGODB_DATABASE_NAME);
-    const collection = db.collection(process.env.MONGODB_COLLECTION_NAME);
-
-    await collection.insertOne({ url, ...data });
-    console.log(`Data saved to MongoDB Atlas for URL: ${url}`);
-  } catch (error) {
-    console.error(`Error saving data to MongoDB Atlas for URL: ${url}: ${error}`);
-  }
-};
-
-const processUrl = async (url, callback) => {
-  console.log(`Fetching ${url}`);
-  const html = await fetchData(url);
-
-  if (html) {
-    console.log(`Parsing data from ${url}`);
-    const data = parseData(html);
-    await saveData(data, url);
-  }
-
-  callback();
-};
+const saveData = (data, url, callback) => {
+    try {
+      const db = client.db(process.env.MONGODB_DATABASE_NAME);
+      const collection = db.collection(process.env.MONGODB_COLLECTION_NAME);
+  
+      collection.insertOne({ url, ...data }, (error, result) => {
+        if (error) {
+          console.error(`Error saving data to MongoDB Atlas for URL: ${url}: ${error}`);
+          return callback(error);
+        }
+  
+        console.log(`Data saved to MongoDB Atlas for URL: ${url}`);
+        callback(null);
+      });
+    } catch (error) {
+      console.error(`Error saving data to MongoDB Atlas for URL: ${url}: ${error}`);
+      callback(error);
+    }
+  };
+  
+  const processUrl = async (url, callback) => {
+    console.log(`Fetching ${url}`);
+    const html = await fetchData(url);
+  
+    if (html) {
+      console.log(`Parsing data from ${url}`);
+      const data = parseData(html);
+      saveData(data, url, callback);
+    } else {
+      callback();
+    }
+  };   
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
