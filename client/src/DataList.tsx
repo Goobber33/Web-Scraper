@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Container, Row, Col } from 'react-bootstrap';
 import './index.css';
 
 interface DataType {
@@ -26,17 +26,15 @@ const DataList: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Scraped Data</h1>
+    <Container className="py-5">
+      <h1 className="container-title">Scraped Data</h1>
       <Row>
         {data.map((item, index) => (
-          <Col md={4} key={item._id}>
-            <Card
-              className={`data-card mb-4 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'} text-white`}
-            >
+          <Col md={4} key={item._id} className="mb-4">
+            <Card className={`data-card shadow h-100`}>
               <Card.Body>
                 <Card.Title>{item.title}</Card.Title>
-                <Card.Link href={item.url} target="_blank" rel="noopener noreferrer">
+                <Card.Link href={item.url} target="_blank" rel="noopener noreferrer" className="text-primary">
                   Visit source
                 </Card.Link>
               </Card.Body>
@@ -44,7 +42,7 @@ const DataList: React.FC = () => {
           </Col>
         ))}
       </Row>
-    </div>
+    </Container>
   );
 };
 
