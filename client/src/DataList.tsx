@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Card, Row, Col } from 'react-bootstrap';
+import './index.css';
 
 interface DataType {
   _id: string;
@@ -26,15 +28,22 @@ const DataList: React.FC = () => {
   return (
     <div>
       <h1>Scraped Data</h1>
-      <ul>
-        {data.map((item) => (
-          <li key={item._id}>
-            <a href={item.url} target="_blank" rel="noopener noreferrer">
-              {item.title}
-            </a>
-          </li>
+      <Row>
+        {data.map((item, index) => (
+          <Col md={4} key={item._id}>
+            <Card
+              className={`data-card mb-4 ${index % 2 === 0 ? 'bg-primary' : 'bg-secondary'} text-white`}
+            >
+              <Card.Body>
+                <Card.Title>{item.title}</Card.Title>
+                <Card.Link href={item.url} target="_blank" rel="noopener noreferrer">
+                  Visit source
+                </Card.Link>
+              </Card.Body>
+            </Card>
+          </Col>
         ))}
-      </ul>
+      </Row>
     </div>
   );
 };
