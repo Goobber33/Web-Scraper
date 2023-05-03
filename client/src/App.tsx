@@ -1,11 +1,16 @@
 import React from 'react';
-import DataList from './DataList'; // Import DataList component
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import DataList from './DataList';
 
 const App: React.FC = () => {
   return (
-    <div>
-      <DataList /> {/* Use the DataList component */}
+    <div className="App">
+      <header className="App-header">
+        <h1>Web Scraping Display</h1>
+      </header>
+      <main>
+        <DataList />
+      </main>
     </div>
   );
 };
