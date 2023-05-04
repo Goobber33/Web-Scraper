@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Container, Row, Col } from 'react-bootstrap';
-import './index.css';
+import './App.sass';
 
 interface DataType {
     _id: string;
