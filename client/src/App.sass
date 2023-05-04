@@ -44,6 +44,9 @@ body
 
 .data-card
   transition: transform 0.3s
+  display: flex
+  flex-direction: column
+  justify-content: space-between
 
   &:hover
     transform: scale(1.05)
@@ -69,5 +72,18 @@ body
   height: 100vh
 
 .webscrape-image
-  max-width: 100%
+  max-width: 50%
+  max-height: 50%
   height: auto
+  border-radius: 50%
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+  transition: transform 0.3s, box-shadow 0.3s
+
+  &:hover
+    transform: scale(1.1)
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2)
+
+.card-footer
+  background: none
+  border-top: none
+  padding-top: 0
