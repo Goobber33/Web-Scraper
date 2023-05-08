@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Goobber33/Web-Scraper/static/css/main.da8faa6b.css",
-    "main.js": "/Goobber33/Web-Scraper/static/js/main.df3a83e5.js",
-    "static/js/787.a1aeabb7.chunk.js": "/Goobber33/Web-Scraper/static/js/787.a1aeabb7.chunk.js",
-    "static/media/webscrape.png": "/Goobber33/Web-Scraper/static/media/webscrape.aaa40ad7b605be27f183.png",
-    "index.html": "/Goobber33/Web-Scraper/index.html",
-    "main.da8faa6b.css.map": "/Goobber33/Web-Scraper/static/css/main.da8faa6b.css.map",
-    "main.df3a83e5.js.map": "/Goobber33/Web-Scraper/static/js/main.df3a83e5.js.map",
-    "787.a1aeabb7.chunk.js.map": "/Goobber33/Web-Scraper/static/js/787.a1aeabb7.chunk.js.map"
+    "main.css": "https://Goobber33.github.io/Web-Scraper/static/css/main.da8faa6b.css",
+    "main.js": "https://Goobber33.github.io/Web-Scraper/static/js/main.c3fd74a7.js",
+    "static/js/787.a1aeabb7.chunk.js": "https://Goobber33.github.io/Web-Scraper/static/js/787.a1aeabb7.chunk.js",
+    "static/media/webscrape.png": "https://Goobber33.github.io/Web-Scraper/static/media/webscrape.aaa40ad7b605be27f183.png",
+    "index.html": "https://Goobber33.github.io/Web-Scraper/index.html",
+    "main.da8faa6b.css.map": "https://Goobber33.github.io/Web-Scraper/static/css/main.da8faa6b.css.map",
+    "main.c3fd74a7.js.map": "https://Goobber33.github.io/Web-Scraper/static/js/main.c3fd74a7.js.map",
+    "787.a1aeabb7.chunk.js.map": "https://Goobber33.github.io/Web-Scraper/static/js/787.a1aeabb7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.da8faa6b.css",
-    "static/js/main.df3a83e5.js"
+    "static/js/main.c3fd74a7.js"
   ]
 }
