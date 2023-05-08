@@ -4,6 +4,10 @@ const path = require('path');
 const { MongoClient } = require('mongodb');
 
 require('dotenv').config();
+console.log('MONGODB_USERNAME:', process.env.MONGODB_USERNAME);
+console.log('MONGODB_PASSWORD:', process.env.MONGODB_PASSWORD);
+console.log('MONGODB_DATABASE_NAME:', process.env.MONGODB_DATABASE_NAME);
+console.log('MONGODB_COLLECTION_NAME:', process.env.MONGODB_COLLECTION_NAME);
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.jslrvg2.mongodb.net/${process.env.MONGODB_DATABASE_NAME}?retryWrites=true&w=majority`;
 

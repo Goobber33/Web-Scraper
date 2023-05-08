@@ -19,7 +19,12 @@ const DataList: React.FC = () => {
             try {
                 const response = await fetch('https://scraperbe.herokuapp.com/api/data');
                 const data = await response.json();
-                setData(data);
+                if (Array.isArray(data)) {
+                    setData(data);
+                  } else {
+                    console.error('Invalid data received:', data);
+                    setData([]);
+                  };
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
