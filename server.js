@@ -27,9 +27,6 @@ connectToMongoDB();
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 app.get('/api/data', async (req, res) => {
   try {
     const db = client.db(process.env.MONGODB_DATABASE_NAME);
@@ -41,11 +38,6 @@ app.get('/api/data', async (req, res) => {
     console.error('Error fetching data from MongoDB Atlas:', error);
     res.status(500).json({ message: 'Error fetching data' });
   }
-});
-
-// Handle any requests that don't match the ones above
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 app.listen(PORT, () => {
