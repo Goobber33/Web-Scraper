@@ -33,16 +33,22 @@ body
   font-weight: bold
   margin-bottom: 1.5rem
   text-align: center
+  color: #1e5799
 
 .card-title
   font-weight: bold
-  font-size: 1.2rem
+  font-size: 1.5rem
   margin-bottom: 1rem
+  color: #f8f9fa
+  text-transform: uppercase
 
 .card-link
   font-weight: bold
 
 .data-card
+  background: linear-gradient(135deg, #1e5799 0%, #e8e8e8 100%)
+  border: none
+  border-radius: 10px
   transition: transform 0.3s
   display: flex
   flex-direction: column
@@ -51,6 +57,11 @@ body
   &:hover
     transform: scale(1.05)
     cursor: pointer
+
+.card-body
+  color: #333
+  font-weight: 500
+  text-align: left
 
 .explanation
   font-family: 'Roboto', sans-serif
@@ -67,9 +78,20 @@ body
 
 .main-image-container
   display: flex
+  flex-direction: column
   justify-content: center
   align-items: center
   height: 100vh
+
+.welcome-text
+  font-family: 'Roboto', sans-serif
+  font-size: 1.2rem
+  font-weight: 400
+  line-height: 1.6
+  margin-bottom: 2rem
+  text-align: center
+  color: #333
+  max-width: 80%
 
 .webscrape-image
   max-width: 50%

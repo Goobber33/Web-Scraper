@@ -1,5 +1,4 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
 const async = require('async');
 const { MongoClient } = require('mongodb');
 
@@ -7,9 +6,12 @@ require('dotenv').config();
 
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.jslrvg2.mongodb.net/${process.env.MONGODB_DATABASE_NAME}?retryWrites=true&w=majority`;
 
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * Math.floor(max)) + 1;
+}
+
 const urls = [
-  'http://books.toscrape.com/',
-  'http://quotes.toscrape.com/',
+  `https://pokeapi.co/api/v2/pokemon/${getRandomInt(151)}`, // Adding PokeAPI URL for a random Pokemon
 ];
 
 const fetchData = async (url) => {
@@ -22,14 +24,20 @@ const fetchData = async (url) => {
   }
 };
 
-const parseData = (html) => {
-  const $ = cheerio.load(html);
-  const data = {};
+const parseData = (data, url) => {
+  const parsedData = {};
 
-  // Extract and parse data from the HTML using Cheerio
-  data.title = $('h1').text().trim();
+  if (url.includes('pokeapi.co')) {
+    // Handle PokeAPI JSON data
+    return {
+      name: data.name,
+      id: data.id,
+      types: data.types.map((type) => type.type.name),
+      abilities: data.abilities.map((ability) => ability.ability.name),
+    };
+  }
 
-  return data;
+  return parsedData;
 };
 
 const saveData = (data, url, callback) => {
@@ -54,12 +62,12 @@ const saveData = (data, url, callback) => {
 
 const processUrl = async (url, callback) => {
   console.log(`Fetching ${url}`);
-  const html = await fetchData(url);
+  const data = await fetchData(url);
 
-  if (html) {
+  if (data) {
     console.log(`Parsing data from ${url}`);
-    const data = parseData(html);
-    saveData(data, url, callback);
+    const parsedData = parseData(data, url); 
+    saveData(parsedData, url, callback);
   } else {
     callback();
   }
@@ -68,29 +76,29 @@ const processUrl = async (url, callback) => {
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const main = async () => {
-    try {
-      await client.connect();
-      console.log('Connected to MongoDB Atlas');
-  
-      const queue = async.queue(processUrl, 2); // Rate limit: 2 concurrent requests
-  
-      queue.push(urls, (error) => {
-        if (error) {
-          console.error(`Error processing URL: ${error}`);
-        } else {
-          console.log('URL processed successfully.');
-        }
-      });
-  
-      queue.drain = async () => {
-        if (queue.idle()) {
-          console.log('All URLs have been processed.');
-          await client.close();
-        }
-      };
-    } catch (error) {
-      console.error('Error connecting to MongoDB Atlas:', error);
-    }
-  };
-  
-  main();
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB Atlas');
+
+    const queue = async.queue(processUrl, 2); // Rate limit: 2 concurrent requests
+
+    queue.push(urls[0], (error) => {
+      if (error) {
+        console.error(`Error processing URL: ${error}`);
+      } else {
+        console.log('URL processed successfully.');
+      }
+    });
+
+    queue.drain = async () => {
+      if (queue.idle()) {
+        console.log('All URLs have been processed.');
+        await client.close();
+      }
+    };
+  } catch (error) {
+    console.error('Error connecting to MongoDB Atlas:', error);
+  }
+};
+
+main();
