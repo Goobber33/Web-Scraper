@@ -1,10 +1,4 @@
 const axios = require('axios');
-const async = require('async');
-const { MongoClient } = require('mongodb');
-
-require('dotenv').config();
-
-const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.jslrvg2.mongodb.net/${process.env.MONGODB_DATABASE_NAME}?retryWrites=true&w=majority`;
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max)) + 1;
@@ -40,7 +34,20 @@ const parseData = (data, url) => {
   return parsedData;
 };
 
-const saveData = (data, url, callback) => {
+const processUrl = async (client, url, callback) => {
+  console.log(`Fetching ${url}`);
+  const data = await fetchData(url);
+
+  if (data) {
+    console.log(`Parsing data from ${url}`);
+    const parsedData = parseData(data, url);
+    saveData(client, parsedData, url, callback);
+  } else {
+    callback();
+  }
+};
+
+const saveData = (client, data, url, callback) => {
   try {
     const db = client.db(process.env.MONGODB_DATABASE_NAME);
     const collection = db.collection(process.env.MONGODB_COLLECTION_NAME);
@@ -60,45 +67,4 @@ const saveData = (data, url, callback) => {
   }
 };
 
-const processUrl = async (url, callback) => {
-  console.log(`Fetching ${url}`);
-  const data = await fetchData(url);
-
-  if (data) {
-    console.log(`Parsing data from ${url}`);
-    const parsedData = parseData(data, url); 
-    saveData(parsedData, url, callback);
-  } else {
-    callback();
-  }
-};
-
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-const main = async () => {
-  try {
-    await client.connect();
-    console.log('Connected to MongoDB Atlas');
-
-    const queue = async.queue(processUrl, 2); // Rate limit: 2 concurrent requests
-
-    queue.push(urls[0], (error) => {
-      if (error) {
-        console.error(`Error processing URL: ${error}`);
-      } else {
-        console.log('URL processed successfully.');
-      }
-    });
-
-    queue.drain = async () => {
-      if (queue.idle()) {
-        console.log('All URLs have been processed.');
-        await client.close();
-      }
-    };
-  } catch (error) {
-    console.error('Error connecting to MongoDB Atlas:', error);
-  }
-};
-
-main();
+module.exports = { processUrl, urls };
