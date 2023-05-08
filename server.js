@@ -32,9 +32,6 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/api/data', async (req, res) => {
   try {
-    if (!client.isConnected()) {
-      await connectToMongoDB();
-    }
     const db = client.db(process.env.MONGODB_DATABASE_NAME);
     const collection = db.collection(process.env.MONGODB_COLLECTION_NAME);
 
@@ -42,7 +39,7 @@ app.get('/api/data', async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error('Error fetching data from MongoDB Atlas:', error);
-    res.status(500).json({ message: `Error fetching data: ${error.message}` });
+    res.status(500).json({ message: 'Error fetching data' });
   }
 });
 
