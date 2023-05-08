@@ -40,9 +40,10 @@ app.get('/api/data', async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error('Error fetching data from MongoDB Atlas:', error);
-    res.status(500).json({ message: 'Error fetching data' });
+    res.status(500).json({ message: 'Error fetching data', error: error.message });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
